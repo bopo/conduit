@@ -1,36 +1,36 @@
-# Conduit overview
-Conduit is an ultralight service mesh for Kubernetes. It makes running services on Kubernetes safer and more reliable by transparently managing the runtime communication between services. It provides features for observability, reliability, and security—all without requiring changes to your code.
+# Conduit 概览
+Conduit是一个针对Kubernetes的超轻量service mesh。它通过透明底管理服务间的运行时通信，使得在Kubernetes上运行服务更加安全和可靠；提供了针对可观测性、可靠性及安全性等方面的特性，而所有这些无需修改任何代码。
 
-In this doc, you’ll get a high-level overview of Conduit and how it works. If you’re not familiar with the service mesh model, you may want to first read William Morgan’s overview, [What’s a service mesh? And why do I need one?](https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/)
+本文档将从一个较高层次介绍Conduit及其是如何工作的。如果不熟悉service mesh模型，或许可以先阅读William Morgan的概览文章 [什么是service mesh？为什么需要它？](https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/)
 
-## Conduit’s architecture
-The Conduit service mesh is deployed on a Kubernetes cluster as two basic components: a data plane and a control plane. The data plane carries the actual application request traffic between service instances. The control plane drives the data plane and provides APIs for modifying its behavior (as well as for accessing aggregated metrics). The Conduit CLI and web UI consume this API and provide ergonomic controls for human beings.
+## Conduit架构
+Conduit service mesh部署到Kubernetes集群时有两个基本组件：一个数据机和一个控制机。数据机承载服务实例间实际的应用请求流量，而控制机则驱动数据机并为修改其行为（及访问聚合指标）提供API。Conduit CLI和web UI使用这个API来为用户提供人体工学控制。
 
-Let’s take each of these components in turn.
+让我们依次认识这些组件。
 
-The Conduit data plane is comprised of lightweight proxies, which are deployed as sidecar containers alongside each instance of your service code. In order to “add” a service to the Conduit service mesh, the pods for that service must be redeployed to include a data plane proxy in each pod. (The `conduit inject` command accomplishes this, as well as the configuration work necessary to transparently funnel traffic from each instance through the proxy.)
+Conduit的数据机由轻量级的代理组成，这些代理作为sidecar容器与每个服务代码的实例部署在一起。要为Conduit servie mesh“增加”一个服务，该服务的pods必须重新部署，以便在每个pod中包含进一个数据机。（`conduit inject` 命令负责这个，同时要通过代理透明地汇集每个示例的流量，配置工作也很必要。）
 
-These proxies transparently intercept communication to and from each pod, and add features such as retries and timeouts, instrumentation, and encryption (TLS), as well as allowing and denying requests according to the relevant policy.
+这些代理透明地拦截进出每个pod的通信，并增加诸如重试和超时、仪表及加密（TLS）等特性，甚至根据相关策略来允许和禁止请求。
 
-These proxies are not designed to be configured by hand. Rather, their behavior is driven by the control plane.
+这些代理并未设计成通过手动方式配置；相反，它们的行为是由控制机驱动的。
 
-The Conduit control plane is a set of services that run in a dedicated Kubernetes namespace (`conduit` by default). These services accomplish various things—aggregating telemetry data, providing a user-facing API, providing control data to the data plane proxies, etc. Together, they drive the behavior of the data plane.
+Conduit控制机是一系列服务，允许在一个专用的Kubernetes命名空间（默认是 `conduit`）。这些服务完成各种各样的任务——聚合遥测数据、提供一个面向用户的API、提供针对数据机代理的控制数据，等等。总之，它们驱动数据机的行为。
 
-## Using Conduit
-In order to interact with Conduit as a human, you use the Conduit CLI and the web UI (as well as with associated tools like `kubectl`). The CLI and the web UI drive the control plane via its API, and the control plane in turn drives the behavior of the data plane.
+## 使用Conduit
+为了支持Conduit的人机交互，可以使用Conduit CLI及web UI（也可以通过相关工具比如 `kubectl`）。CLI 和 web UI通过API驱动控制机，而控制机相应地驱动数据机的行为。
 
-The control plane API is designed to be generic enough that other tooling can be built on top of it. For example, you may wish to additionally drive the API from a CI/CD system.
+控制机API设计得足够通用，以便能基于此构建其他工具。比如，你可能希望另外从一个CI/CD系统来驱动API。
 
-A brief overview of the CLI’s functionality can be seen by running `conduit --help`.
+运行 `conduit --help` 可查看关于CLI功能的简短概述。
 
-## Conduit with Kubernetes
-Conduit is designed to fit seamlessly into an existing Kubernetes system. This design has several important features.
+## Conduit 与 Kubernetes
+Conduit设计用于无缝地融入现有的Kubernetes系统。该设计有几个重要特征。
 
-First, the Conduit CLI (`conduit`) is designed to be used in conjunction with `kubectl` whenever possible. For example, `conduit install` and `conduit inject` generated Kubernetes configurations that are designed to be fed directly into `kubectl`. This is to provide a clear division of labor between the service mesh and the orchestrator, and to make it easier to fit Conduit into existing Kubernetes workflows.
+第一，Conduit CLI（`conduit`）设计成尽可能地与 `kubectl` 一起使用。比如，`conduit install` 和 `conduit inject` 生成的Kubernetes配置，被设计成直接送入`kubectl`。这是为了在service mesh和orchestrator之间提供一个清晰的工作分工，且能使适配Conduit到已有Kubernetes工作流更加容易。
 
-Second, Conduit’s core noun in Kubernetes is the Deployment, not the Service. For example, `conduit inject` adds a Deployment; the Conduit web UI displays Deployments; aggregated performance metrics are given per Deployment. This is because individual pods can be a part of arbitrary numbers of Services, which can lead to complex mappings between traffic flow and pods. Deployments, by contrast, require that a single pod be a part of at most one Deployment. By building on Deployments rather than Services, the mapping between traffic and pod is always clear.
+第二，Kubernetes中Conduit的核心词是Deployment，而不是Service。举个例子，`conduit inject` 增加一个Deployment，Conduit web UI会显示这些Deployments，并按Deployment提供聚合的性能指标。这是因为单个pods可以是任意数量Service的一部分，而这会导致通信流量与pods之间的复杂映射。相比之下，Deployment要求单个pod最多是一个Deployment的一部分。通过基于Deployments而不是Services来构建，流量与pod间的映射就总是清晰的。
 
-These two design features compose nicely. For example, `conduit inject` can be used on a live Deployment, as Kubernetes rolls pods to include the data plane proxy as it updates the Deployment.
+这两个设计特性能很好地组合。比如，`conduit inject`可用于一个运行的Deployment，因为当它更新Deployment时， Kubernetes会回滚pods以包括数据机代理。
 
-## Extending Conduit’s Behavior
-The Conduit control plane also provides a convenient place for custom functionality to be built. While the initial release of Conduit does not support this yet, in the near future, you’ll be able to extend Conduit’s functionality by writing gRPC plugins that run as part of the control plane, without needing to recompile Conduit.
+## 扩展Conduit的行为
+Conduit控制机还为构建自定义功能提供了一个便捷的入口。Conduit初始发布时并不支持这一点，在不远的将来，通过编写作为控制机的一部分运行的gRPC插件，将能扩展Conduit的功能，而无需重新编译Conduit。

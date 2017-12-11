@@ -9,7 +9,7 @@
 1. 审核和校对：如果您在阅读时发现内容有谬误，可以通过 [github issue][]提交issue给我们，您也可以fork出来然后通过PR提交更改
 2. 直接参与翻译工作： 您可以报名加入我们的翻译小组，请先加入Service Mesh技术社区，然后在微信群中联系我们。
 
-	> 加入方式：请联系微信ID xiaoshu062 ，注明“服务网格”。
+  > 加入方式：请联系微信ID xiaoshu062 ，注明“服务网格”。
 
 ## 工作方式
 
@@ -52,6 +52,8 @@ setting   设置
 traffic   流量
 authentication  认证
 authorization   授权
+data plane 数据平面
+control plane 控制平面
 ```
 
 ### 约定

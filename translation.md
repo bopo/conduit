@@ -52,8 +52,8 @@ setting   设置
 traffic   流量
 authentication  认证
 authorization   授权
-data plant 数据平面
-control plant 控制平面
+data plane 数据平面
+control plane 控制平面
 ```
 
 ### 约定

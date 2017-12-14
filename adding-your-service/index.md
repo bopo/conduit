@@ -26,7 +26,7 @@ conduit dashboard
 ~~~
 ##非HTTP/2流量
 截至当前版本，Conduit代理仅支持HTTP/2。如果您的服务收到非HTTP/2流量，您可以配置一个入站端口列表，这将绕过代理并直接进入您的应用程序。绕过代理的流量对于服务网格不可见。
-您可以将绕过conduit的入站端口列表配置递给`conduit inject`通过`--skip-inbound-ports`参数的以逗号分隔的端口列表。例如，要允许端口80和7777上的入站流量绕过代理，请使用以下命令：
+您可以将绕过conduit的入站端口列表配置以逗号分割通过`--skip-inbound-ports`参数递给`conduit inject`。例如，要允许端口80和7777上的入站流量绕过代理，请使用以下命令：
 ~~~
 conduit inject deployment.yml --skip-inbound-ports=80,7777 | kubectl apply -f -
 ~~~

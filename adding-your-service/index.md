@@ -1,8 +1,8 @@
 # 向网格添加服务
 
-为了使您的服务能够使用Conduit，它需要添加到服务网格中。这是通过使用Conduit CLI添加Conduit代理sidecar到每个pod。通过滚动更新，您的应用程序的可用性不会受到影响。
+为了使您的服务能够使用Conduit，需要将服务加入到网格中。这是通过使用Conduit CLI添加Conduit代理sidecar到每个pod。通过滚动更新，您的应用程序的可用性不会受到影响。
 
-##先决条件
+## 先决条件
 
 - 当前版本Conduit,0.1.0,仅支持HTTP/2(包括 gRPC)，您的服务在pod外部进行的任何网络调用都必须是HTTP/2。
 - 您的服务可能会收到非HTTP/2流量，但必须明确配置为跳过代理，并且此流量对服务网格不可见（请参阅[非HTTP/2流量](#non-http-2-traffic)）。
@@ -24,8 +24,9 @@ conduit inject deployment.yml | kubectl apply -f -
 ~~~
 conduit dashboard
 ~~~
-##非HTTP/2流量
+## 非HTTP/2流量
 截至当前版本，Conduit代理仅支持HTTP/2。如果您的服务收到非HTTP/2流量，您可以配置一个入站端口列表，这将绕过代理并直接进入您的应用程序。绕过代理的流量对于服务网格不可见。
+
 您可以将绕过conduit的入站端口列表配置以逗号分割通过`--skip-inbound-ports`参数递给`conduit inject`。例如，要允许端口80和7777上的入站流量绕过代理，请使用以下命令：
 ~~~
 conduit inject deployment.yml --skip-inbound-ports=80,7777 | kubectl apply -f -

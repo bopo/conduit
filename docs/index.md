@@ -1,6 +1,6 @@
 # Conduit概览
 
-Conduit是一个用于Kubernetes的超轻量service mesh。它通过透明地管理服务间的运行时通信，可以更加安全和可靠的在Kubernetes上运行服务。提供了针对可观测性、可靠性及安全性等方面的特性——而所有这些无需任何代码修改。
+Conduit是一个面向Kubernetes的超轻量Service Mesh。他对运行在Kubernetes中的服务间通信进行透明的管理，让服务变得更加安全和可靠。在不需要变更代码的前提下，Conduit微服务提供了可靠性、安全性和可监控的特性。
 
 本文档将高层次的概述Conduit，及其它是如何工作的。如果不熟悉service mesh模型，可以先阅读William Morgan的概览文章[What’s a service mesh? And why do I need one?](https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/)
 

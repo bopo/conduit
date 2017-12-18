@@ -10,8 +10,8 @@ Conduit将默认提供服务间的认证和加密。
 
 ## API驱动策略
 
-Conduit将扩展Kubernetes API以支持多种实践中的运营策略。
+Conduit将扩展Kubernetes API以支持多种实践中的运维策略。
 
-## 热插拔控制器
+## 可插拔控制器
 
 Conduit的控制器本身是一个微服务，且可扩展以支持特定环境的策略插件。

@@ -2,7 +2,7 @@
 
 ## 介绍
 
-[Conduit](https://conduit.io/)是由[Buoyant](https://buoyant.io/)公司开发的新一代超轻量级Service Mesh开源项目，用于Kubernetes。
+[Conduit](https://conduit.io/)是由[Buoyant](https://buoyant.io/)公司开发的面向Kubernetes的新一代超轻量Service Mesh开源项目。
 
 这是[Conduit官方文档](https://conduit.io/docs/)的中文翻译版，由Service Mesh中国社区组织翻译并更新维护。
 

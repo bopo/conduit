@@ -29,7 +29,7 @@ http://www.servicemesh.cn/
 
 https://servicemesh.gitbooks.io/awesome-servicemesh/
 
-如果想加入Service Mesh中国社区的微信群，请联系微信ID `xiaoshu062` ，注明“服务网格”。
+如果有意加入Service Mesh中国社区的微信群，请联系微信ID `xiaoshu062` ，注明“服务网格”。
 
 [gitbook]: https://doczhcn.gitbooks.io/conduit/
 [qcloud]: http://conduit.doczh.cn/
